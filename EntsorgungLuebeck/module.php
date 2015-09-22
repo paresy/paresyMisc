@@ -10,6 +10,8 @@
 			
 			$this->RegisterPropertyString("streetName", "Willy-Brandt-Allee");
 			$this->RegisterPropertyString("streetNumber", "31");
+			$this->RegisterTimer("RequestInfo", 0, 'EL_RequestInfo($_IPS[\'TARGET\']);');
+        
 			
 		}		
 	
@@ -21,7 +23,8 @@
 			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestamp");
 			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
 			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
-
+			$this->RequestInfo();
+			
 		}
 	
 		/**
@@ -50,6 +53,8 @@
 			$buffer = stristr($buffer, '<div class="kw_table">');
 
 			$i = 0;
+
+			
 			while(true) {
 				//fetch div
 				$buffer = stristr($buffer, '<div class="kw_td_');
@@ -97,8 +102,80 @@
 				}
 			}
 			SetValue($this->GetIDForIdent("BioTime"), $bioTime);
-			
 		}
+		//Woarkaround Timer
+		protected function RegisterTimer($Name, $Interval, $Script)
+		{
+			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
+			if ($id === false)
+				$id = 0;
+
+			if ($id > 0)
+			{
+				if (!IPS_EventExists($id))
+					throw new Exception("Ident with name " . $Name . " is used for wrong object type");
+	
+				if (IPS_GetEvent($id)['EventType'] <> 1)
+				{
+					IPS_DeleteEvent($id);
+					$id = 0;
+				}
+			}
+
+			if ($id == 0)
+			{
+				$id = IPS_CreateEvent(1);
+				IPS_SetParent($id, $this->InstanceID);
+				IPS_SetIdent($id, $Name);
+			}
+			IPS_SetName($id, $Name);
+			IPS_SetHidden($id, true);
+			IPS_SetEventScript($id, $Script);
+			if ($Interval > 0)
+			{
+				IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, $Interval);
+				IPS_SetEventActive($id, true);
+			} else
+			{
+				IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, 1);
+				IPS_SetEventActive($id, false);
+			}
+		}
+
+		protected function UnregisterTimer($Name)
+		{
+			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
+			if ($id > 0)
+			{
+				if (!IPS_EventExists($id))
+					throw new Exception('Timer not present');
+				IPS_DeleteEvent($id);
+			}
+		}
+
+		protected function SetTimerInterval($Name, $Interval)
+		{
+			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
+			if ($id === false)
+				throw new Exception('Timer not present');
+			if (!IPS_EventExists($id))
+				throw new Exception('Timer not present');
+	        $Event = IPS_GetEvent($id);
+			if ($Interval < 1)
+			{
+				if ($Event['EventActive'])
+					IPS_SetEventActive($id, false);
+			}
+			else
+			{
+				if ($Event['CyclicTimeValue'] <> $Interval)
+					IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, $Interval);
+				if (!$Event['EventActive'])
+					IPS_SetEventActive($id, true);
+			}
+		}
+			
+		
 	
 	}
 
