@@ -111,15 +111,14 @@
 			if (($bioTime <> 0) and ( $nextTime > $bioTime ))
 				$nextTime = $bioTime;
 
-			if ($nextTime <> 0) {
-				$Interval = $nextTime + 86400 - time();
-				$this->SetTimerInterval('RequestInfo', $Interval);
-			} else {
-				$this->SetTimerInterval('RequestInfo', 86400);
-			}
+			if ($nextTime <> 0)
+                            $this->SetTimer('RequestInfo', $nextTime);
+			else
+                            $this->SetTimer('RequestInfo', 86400 + time());
 		}
+                
 		//Woarkaround Timer
-		protected function RegisterTimer($Name, $Interval, $Script)
+		protected function RegisterTimer($Name, $Script)
 		{
 			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
 			if ($id === false)
@@ -146,15 +145,7 @@
 			IPS_SetName($id, $Name);
 			IPS_SetHidden($id, true);
 			IPS_SetEventScript($id, $Script);
-			if ($Interval > 0)
-			{
-				IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, $Interval);
-				IPS_SetEventActive($id, true);
-			} else
-			{
-				IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, 1);
-				IPS_SetEventActive($id, false);
-			}
+			IPS_SetEventActive($id, false);
 		}
 
 		protected function UnregisterTimer($Name)
@@ -168,24 +159,26 @@
 			}
 		}
 
-		protected function SetTimerInterval($Name, $Interval)
+		protected function SetTimer($Name, $TargetTime)
 		{
 			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
 			if ($id === false)
 				throw new Exception('Timer not present');
 			if (!IPS_EventExists($id))
 				throw new Exception('Timer not present');
-	        $Event = IPS_GetEvent($id);
-			if ($Interval < 1)
+                        $Event = IPS_GetEvent($id);
+			if ($TargetTime < time())
 			{
 				if ($Event['EventActive'])
 					IPS_SetEventActive($id, false);
 			}
 			else
 			{
-				if ($Event['CyclicTimeValue'] <> $Interval)
-					IPS_SetEventCyclic($id, 0, 0, 0, 0, 1, $Interval);
-				if (!$Event['EventActive'])
+                             
+				IPS_SetEventCyclic($id, 1, 0, 0, 0, 0, 0);
+                                IPS_SetEventCyclicDateTo($id,(int)date("d",$TargetTime),(int)date("m",$TargetTime),(int)date("Y",$TargetTime));
+                                IPS_SetEventCyclicTimeTo($id,(int)date("H",$TargetTime),(int)date("i",$TargetTime),(int)date("s",$TargetTime));
+                                if (!$Event['EventActive'])
 					IPS_SetEventActive($id, true);
 			}
 		}
