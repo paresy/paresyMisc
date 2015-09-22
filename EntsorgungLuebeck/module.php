@@ -112,7 +112,7 @@
 				$nextTime = $bioTime;
 
 			if ($nextTime <> 0)
-                            $this->SetTimer('RequestInfo', $nextTime);
+                            $this->SetTimer('RequestInfo', $nextTime + 86400);
 			else
                             $this->SetTimer('RequestInfo', 86400 + time());
 		}
@@ -176,7 +176,9 @@
 			{
                              
 				IPS_SetEventCyclic($id, 1, 0, 0, 0, 0, 0);
-                                IPS_SetEventCyclicDateTo($id,(int)date("d",$TargetTime),(int)date("m",$TargetTime),(int)date("Y",$TargetTime));
+                                IPS_SetEventCyclicDateFrom($id,(int)date("j",$TargetTime),(int)date("n",$TargetTime),(int)date("o",$TargetTime));
+                                IPS_SetEventCyclicDateTo($id,(int)date("j",$TargetTime),(int)date("n",$TargetTime),(int)date("o",$TargetTime));
+                                IPS_SetEventCyclicTimeFrom($id,(int)date("H",$TargetTime),(int)date("i",$TargetTime),(int)date("s",$TargetTime));
                                 IPS_SetEventCyclicTimeTo($id,(int)date("H",$TargetTime),(int)date("i",$TargetTime),(int)date("s",$TargetTime));
                                 if (!$Event['EventActive'])
 					IPS_SetEventActive($id, true);
