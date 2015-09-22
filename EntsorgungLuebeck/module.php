@@ -10,7 +10,6 @@
 			
 			$this->RegisterPropertyString("streetName", "Willy-Brandt-Allee");
 			$this->RegisterPropertyString("streetNumber", "31");
-			$this->RegisterTimer("RequestInfo", 0, 'EL_RequestInfo($_IPS[\'TARGET\']);');
         
 			
 		}		
@@ -24,6 +23,7 @@
 			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
 			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
 			$this->RequestInfo();
+			$this->RegisterTimer("RequestInfo", 'EL_RequestInfo($_IPS[\'TARGET\']);');
 			
 		}
 	
