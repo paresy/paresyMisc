@@ -1,0 +1,11 @@
+{
+	"elements":
+	[
+		{ "name": "streetName", "type": "ValidationTextBox", "caption": "Strassenname" },
+		{ "name": "streetNumber", "type": "ValidationTextBox", "caption": "Hausnummer" }
+	],
+	"actions":
+	[
+		{ "type": "Button", "label": "Update", "onClick": "EL_RequestInfo($id);" }
+	]	
+}

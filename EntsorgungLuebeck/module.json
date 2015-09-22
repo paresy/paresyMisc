@@ -1,0 +1,14 @@
+{
+	"id": "{B30AE13F-C168-4AA8-BFD5-A2EEA839349B}",
+	"name": "EntsorgungLuebeck",
+	"type": 3,
+	"vendor": "",
+	"aliases": 
+	[
+		"Entsorgung Luebeck"
+	],	
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "EL"
+}
