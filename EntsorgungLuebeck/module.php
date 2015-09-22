@@ -40,7 +40,8 @@
 			
 			$strasse = $this->ReadPropertyString("streetName");
 			$hausnr = $this->ReadPropertyString("streetNumber");
-
+			if (trim($strasse) == "")
+				return;
 			$str = base64_encode('a:3:{s:3:"STR";s:'.strlen($strasse).':"'.$strasse.'";s:4:"YEAR";s:4:"'.date("Y").'";s:3:"HNR";s:'.strlen($hausnr).':"'.$hausnr.'";}');
 			$buffer = file_get_contents("http://luebeck.abfallkalender.insert-infotech.de/kalender.php?BaseString=".$str."%3D");
 
@@ -77,6 +78,7 @@
 			//var_dump($result);
 			
 			$wasteTime = 0;
+			$nextTime = 0;
 			foreach($result as $item) {
 				if(strpos($item['feiertag'], "tonne_schwarz") !== false) {
 					$wasteTime = strtotime($item['tag'].". ".$item['monat']);
@@ -84,6 +86,8 @@
 				}
 			}
 			SetValue($this->GetIDForIdent("WasteTime"), $wasteTime);
+			if ($wasteTime <> 0)
+				$nextTime = $wasteTime;
 			
 			$paperTime = 0;
 			foreach($result as $item) {
@@ -93,6 +97,8 @@
 				}
 			}
 			SetValue($this->GetIDForIdent("PaperTime"), $paperTime);
+			if (($paperTime <> 0) and ( $nextTime > $paperTime ))
+				$nextTime = $paperTime;
 			
 			$bioTime = 0;
 			foreach($result as $item) {
@@ -102,6 +108,15 @@
 				}
 			}
 			SetValue($this->GetIDForIdent("BioTime"), $bioTime);
+			if (($bioTime <> 0) and ( $nextTime > $bioTime ))
+				$nextTime = $bioTime;
+
+			if ($nextTime <> 0) {
+				$Interval = $nextTime + 86400 - time();
+				$this->SetTimerInterval('Abfall', $Interval);
+			} else {
+				$this->SetTimerInterval('Abfall', 86400);
+			}
 		}
 		//Woarkaround Timer
 		protected function RegisterTimer($Name, $Interval, $Script)
