@@ -82,7 +82,7 @@
 			
 			$paperTime = 0;
 			foreach($result as $item) {
-				if(strpos($item['feiertag'], "tonne_braun") !== false) {
+				if(strpos($item['feiertag'], "tonne_blau") !== false) {
 					$paperTime = strtotime($item['tag'].". ".$item['monat']);
 					break;
 				}
@@ -91,7 +91,7 @@
 			
 			$bioTime = 0;
 			foreach($result as $item) {
-				if(strpos($item['feiertag'], "tonne_blau") !== false) {
+				if(strpos($item['feiertag'], "tonne_braun") !== false) {
 					$bioTime = strtotime($item['tag'].". ".$item['monat']);
 					break;
 				}
