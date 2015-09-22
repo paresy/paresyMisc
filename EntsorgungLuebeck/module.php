@@ -113,9 +113,9 @@
 
 			if ($nextTime <> 0) {
 				$Interval = $nextTime + 86400 - time();
-				$this->SetTimerInterval('Abfall', $Interval);
+				$this->SetTimerInterval('RequestInfo', $Interval);
 			} else {
-				$this->SetTimerInterval('Abfall', 86400);
+				$this->SetTimerInterval('RequestInfo', 86400);
 			}
 		}
 		//Woarkaround Timer
