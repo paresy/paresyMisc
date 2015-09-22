@@ -22,8 +22,8 @@
 			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestamp");
 			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
 			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
-			$this->RequestInfo();
 			$this->RegisterTimer("RequestInfo", 'EL_RequestInfo($_IPS[\'TARGET\']);');
+			$this->RequestInfo();
 			
 		}
 	
