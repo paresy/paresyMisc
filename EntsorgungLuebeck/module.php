@@ -1,4 +1,4 @@
-<?
+﻿<?
 
 	class EntsorgungLuebeck extends IPSModule
 	{
@@ -46,7 +46,7 @@
 			$buffer = file_get_contents("http://luebeck.abfallkalender.insert-infotech.de/kalender.php?BaseString=".$str."%3D");
 
 			if(strpos($buffer, "Leerungsdaten") !== false) {
-				echo "Ung�ltige Adresse!";
+				echo "Ungültige Adresse!";
 				return;
 			}
 			
