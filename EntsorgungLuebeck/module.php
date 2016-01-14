@@ -144,7 +144,7 @@
 			}
 			IPS_SetName($id, $Ident);
 			IPS_SetHidden($id, true);
-			IPS_SetEventScript($id, $Script);
+			IPS_SetEventScript($id, $Action);
 			IPS_SetEventActive($id, false);
 		}
 
