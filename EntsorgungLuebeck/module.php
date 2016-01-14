@@ -22,7 +22,7 @@
 			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestamp");
 			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
 			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
-			$this->RegisterTimer("RequestInfo", 'EL_RequestInfo($_IPS[\'TARGET\']);');
+			$this->RegisterTimer("RequestInfo", 0, 'EL_RequestInfo($_IPS[\'TARGET\']);');
 			$this->RequestInfo();
 			
 		}
@@ -118,16 +118,16 @@
 		}
                 
 		//Woarkaround Timer
-		protected function RegisterTimer($Name, $Script)
+		protected function RegisterTimer($Ident, $Milliseconds, $Action) 
 		{
-			$id = @IPS_GetObjectIDByIdent($Name, $this->InstanceID);
+			$id = @IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
 			if ($id === false)
 				$id = 0;
 
 			if ($id > 0)
 			{
 				if (!IPS_EventExists($id))
-					throw new Exception("Ident with name " . $Name . " is used for wrong object type");
+					throw new Exception("Ident with name " . $Ident . " is used for wrong object type");
 	
 				if (IPS_GetEvent($id)['EventType'] <> 1)
 				{
@@ -140,9 +140,9 @@
 			{
 				$id = IPS_CreateEvent(1);
 				IPS_SetParent($id, $this->InstanceID);
-				IPS_SetIdent($id, $Name);
+				IPS_SetIdent($id, $Ident);
 			}
-			IPS_SetName($id, $Name);
+			IPS_SetName($id, $Ident);
 			IPS_SetHidden($id, true);
 			IPS_SetEventScript($id, $Script);
 			IPS_SetEventActive($id, false);
