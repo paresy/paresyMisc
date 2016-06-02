@@ -1,0 +1,10 @@
+{
+	"elements":
+	[
+		{ "name": "city", "type": "ValidationTextBox", "caption": "Ort" }
+	],
+	"actions":
+	[
+		{ "type": "Button", "label": "Update", "onClick": "EZVO_RequestInfo($id);" }
+	]	
+}

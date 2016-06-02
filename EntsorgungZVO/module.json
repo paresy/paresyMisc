@@ -1,0 +1,14 @@
+{
+	"id": "{BAFD4065-297F-43E3-9CD1-9C9E84316B57}",
+	"name": "EntsorgungZVO",
+	"type": 3,
+	"vendor": "",
+	"aliases": 
+	[
+		"Entsorgung ZVO"
+	],	
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "EZVO"
+}
