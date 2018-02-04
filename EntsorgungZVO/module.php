@@ -17,10 +17,10 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 			
-			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestamp");
-			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
-			$this->RegisterVariableInteger("RecycleTime", "Gelber Sack", "~UnixTimestamp");
-			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
+			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestampDate");
+			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestampDate");
+			$this->RegisterVariableInteger("RecycleTime", "Gelber Sack", "~UnixTimestampDate");
+			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestampDate");
 
 		}
 	
