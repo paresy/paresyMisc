@@ -18,9 +18,9 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 			
-			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestamp");
-			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestamp");
-			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestamp");
+			$this->RegisterVariableInteger("WasteTime", "Restmuell", "~UnixTimestampDate");
+			$this->RegisterVariableInteger("BioTime", "Biotonne", "~UnixTimestampDate");
+			$this->RegisterVariableInteger("PaperTime", "Papiertonne", "~UnixTimestampDate");
 
 		}
 	
@@ -42,7 +42,7 @@
 			$buffer = file_get_contents("http://luebeck.abfallkalender.insert-infotech.de/kalender.php?BaseString=".$str."%3D");
 
 			if(strpos($buffer, "Leerungsdaten") !== false) {
-				echo "Ungültige Adresse!";
+				echo "UngÃ¼ltige Adresse!";
 				return;
 			}
 			
