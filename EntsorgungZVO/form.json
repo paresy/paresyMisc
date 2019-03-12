@@ -1,7 +1,7 @@
 {
 	"elements":
 	[
-		{ "name": "city", "type": "ValidationTextBox", "caption": "Ort" }
+		{ "name": "city", "type": "Select", "caption": "Ort", "options": [] }
 	],
 	"actions":
 	[
